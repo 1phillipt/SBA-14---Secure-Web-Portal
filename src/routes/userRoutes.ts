@@ -38,6 +38,7 @@ router.post("/register", async (req: Request, res: Response): Promise<void> => {
       },
     });
   } catch (error) {
+    console.error("Register error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -77,6 +78,7 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
       },
     });
   } catch (error) {
+    console.error("Login error:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
