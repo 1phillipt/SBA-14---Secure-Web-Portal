@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
+import bookmarkRoutes from "./routes/bookmarkRoutes.js";
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/users", userRoutes);
+app.use("/api/bookmarks", bookmarkRoutes);
 
 export default app;
