@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import passport from "passport";
 import User from "../models/User.js";
 import { signToken } from "../utils/auth.js";
 
@@ -82,5 +83,29 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+router.get(
+  "/auth/github",
+  passport.authenticate("github", { session: false })
+);
+
+router.get(
+  "/auth/github/callback",
+  passport.authenticate("github", { session: false, failureRedirect: "/" }),
+  (req, res) => {
+    const user = req.user as any;
+    const token = signToken(String(user._id));
+
+    res.status(200).json({
+      message: "GitHub login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  }
+);
 
 export default router;

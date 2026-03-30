@@ -6,12 +6,18 @@ import { connectDB } from "./config/db.js";
 
 const PORT = process.env.PORT || 5000;
 
-connectDB()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+async function startServer() {
+  await import("./config/passport.js");
+
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error("Database connection failed:", error);
     });
-  })
-  .catch((error) => {
-    console.error("Database connection failed:", error);
-  });
+}
+
+startServer();
